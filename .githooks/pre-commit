@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Menjalankan pre-commit anti-secret check..."
+
+if git diff --cached --binary -- . ':(exclude).githooks/pre-commit' | grep -E 'PASSWORD=|API_KEY=' > /dev/null; then
+    echo "ERROR: Secret Terdeteksi!!"
+    echo "Commit dibatalkan."
+    exit 1
+fi
+
+echo "Tidak ada Secret. Commit Diizinkan."
+exit 0
